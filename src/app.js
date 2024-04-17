@@ -1,13 +1,13 @@
-const express = require('express');
-const helmet = require('helmet');
-const mongoose = require('mongoose');
-const mongoSanitize = require('express-mongo-sanitize');
-const cors = require('cors');
+const express = require("express");
+const helmet = require("helmet");
+const mongoose = require("mongoose");
+const mongoSanitize = require("express-mongo-sanitize");
+const cors = require("cors");
 
-const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('./../apispec.json');
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("./../apispec.json");
 
-require('dotenv').config();
+require("dotenv").config();
 
 const app = express();
 const port = process.env.PORT;
@@ -15,13 +15,14 @@ const db = process.env.DB_URI;
 
 console.log(db);
 
-mongoose.connect(db)
-    .then(() => {
-        console.log('Connected to MongoDB');
-    })
-    .catch((error) => {
-        console.error('Error connecting to MongoDB:', error);
-    });
+mongoose
+  .connect(db)
+  .then(() => {
+    console.log("Connected to MongoDB");
+  })
+  .catch((error) => {
+    console.error("Error connecting to MongoDB:", error);
+  });
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
 
@@ -30,8 +31,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(mongoSanitize());
 app.use(cors());
-app.options('*', cors());
+app.options("*", cors());
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-app.use('/api', require('./routes'));
+app.use("/api", require("./routes"));

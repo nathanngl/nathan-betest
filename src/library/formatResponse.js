@@ -1,4 +1,4 @@
-const httpStatus = require('http-status');
+const httpStatus = require("http-status");
 
 function isClientErrorCategory(code) {
   return code >= 400 && code <= 500;
