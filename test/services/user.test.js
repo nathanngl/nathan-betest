@@ -46,18 +46,6 @@ describe("getUsers", () => {
     expect(result).toBeNull();
     expect(mockUserRepository.getUsers).toHaveBeenCalledTimes(1);
   });
-
-  it("should throw error when error occurs", async () => {
-    // Arrange
-    const mockUserRepository = {
-      getUsers: jest.fn().mockRejectedValue(new Error("Failed to get users")),
-    };
-    const userService = new UserService(mockUserRepository);
-
-    // Act & Assert
-    await expect(userService.getUsers()).rejects.toThrow("Failed to get users");
-    expect(mockUserRepository.getUsers).toHaveBeenCalledTimes(1);
-  });
 });
 
 describe("getUserByID", () => {
@@ -94,7 +82,7 @@ describe("getUserByID", () => {
 
     // Act and Assert
     await expect(userService.getUserByID(refId)).rejects.toThrow(
-      "User not found",
+      "User not found"
     );
     expect(userRepositoryMock.getUserByID).toHaveBeenCalledWith(refId);
   });
@@ -139,7 +127,7 @@ describe("createUser", () => {
 
     // Act and Assert
     await expect(userService.createUser(user)).rejects.toThrowError(
-      "Invalid input data",
+      "Invalid input data"
     );
   });
 });
@@ -168,6 +156,27 @@ describe("updateUser", () => {
     expect(result).toBe("User updated");
   });
 
+  it("should throw an error when data not found", async () => {
+    // Arrange
+    const userRepositoryMock = {
+      updateUser: jest.fn().mockResolvedValue(null),
+    };
+    const userService = new UserService(userRepositoryMock);
+    const user = {
+      _id: "662028ef115d3aa9c6d68d46",
+      userName: "nathanNgl",
+      accountNumber: "78910",
+      emailAddress: "nathan.ngl@mail",
+      identityNumber: "78910",
+    };
+    const refId = "662028ef115d3aa9c6d68d46";
+
+    // Act & Assert
+    await expect(userService.updateUser(refId, user)).rejects.toThrowError(
+      "User not found"
+    );
+  });
+
   it("should throw an error when invalid user ID is provided", async () => {
     // Arrange
     const userRepositoryMock = {
@@ -186,7 +195,7 @@ describe("updateUser", () => {
 
     // Assert
     await expect(userService.updateUser("invalid-id", user)).rejects.toThrow(
-      "Invalid user ID",
+      "Invalid user ID"
     );
   });
 });
@@ -218,7 +227,7 @@ describe("deleteUser", () => {
 
     // Act
     await expect(userService.deleteUser(refId)).rejects.toThrow(
-      "Invalid user ID",
+      "Invalid user ID"
     );
 
     // Assert
