@@ -36,6 +36,9 @@ class UserService {
   async updateUser(refId, user) {
     try {
       const data = await this.UserRepository.updateUser(refId, user);
+      if (!data) {
+        throw new Error("User not found");
+      }
       return data;
     } catch (error) {
       throw new Error(error);
