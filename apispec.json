@@ -1,95 +1,370 @@
 {
-  "openapi": "3.0.2",
+  "swagger": "2.0",
   "info": {
-    "title": "Nathan BE Test",
-    "version": "1.0"
+    "version": "1.0.0",
+    "title": "REST API",
+    "description": "Nathan Nainggolan - BE Test"
   },
-  "servers": [{ "url": "http://localhost:3000" }],
+  "host": "localhost:3000",
+  "basePath": "/",
+  "schemes": ["http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
   "paths": {
-    "/users": {
-      "get": {
-        "tags": ["List Users"],
-        "description": "List All User",
-        "parameters": [
-          {
-            "name": "name",
-            "in": "query",
-            "description": "Employee Name",
+    "/api/auth/getToken": {
+      "post": {
+        "tags": ["Auth"],
+        "description": "get token",
+        "responses": {
+          "200": {
+            "description": "OK",
             "schema": {
-              "type": "string"
-            },
-            "required": true
-          },
-          {
-            "name": "fileName",
-            "in": "query",
-            "description": "FileName",
-            "schema": {
-              "type": "string"
-            },
-            "required": true,
-            "examples": {
-              "another-faulty-employees": {
-                "value": "another-faulty-employees.json"
-              },
-              "faulty-employees": {
-                "value": "faulty-employees.json"
-              },
-              "correct-employees": {
-                "value": "correct-employees.json"
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Token generated successfully"
+                },
+                "success": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "data": {
+                  "type": "string",
+                  "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMDI4ZWZiMTI1ZDNhOWM2ZDZkOGQ0NSIsImlhdCI6MTY2NDY1NjQ5NCwiZXhwIjoxNjY0NjU2NDk0fQ.7dX6o9hGJkYl0VJpXW7i8JpXqS5w6Yh5"
+                }
               }
             }
+          }
+        }
+      }
+    },
+    "/api//users/": {
+      "get": {
+        "tags": ["User"],
+        "description": "Get list of user",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
           }
         ],
         "responses": {
           "200": {
-            "description": "Success get all employee",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "string"
-                    },
-                    "name": {
-                      "type": "string"
-                    },
-                    "countDirectReports": {
-                      "type": "number"
-                    },
-                    "countIndirectReports": {
-                      "type": "number"
-                    },
-                    "superior": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "string"
-                        },
-                        "name": {
-                          "type": "string"
-                        },
-                        "superior": {
-                          "type": "object",
-                          "properties": {
-                            "id": {
-                              "type": "string"
-                            },
-                            "name": {
-                              "type": "string"
-                            },
-                            "superior": {
-                              "type": "object"
-                            }
-                          }
-                        }
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Users fetched successfully"
+                },
+                "success": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "_id": {
+                        "type": "string",
+                        "example": "662028ef115d3aa9c6d68d45"
+                      },
+                      "userName": {
+                        "type": "string",
+                        "example": "nathan"
+                      },
+                      "accountNumber": {
+                        "type": "string",
+                        "example": "123456"
+                      },
+                      "emailAddress": {
+                        "type": "string",
+                        "example": "nathan@mail"
+                      },
+                      "identityNumber": {
+                        "type": "string",
+                        "example": "123456"
                       }
                     }
                   }
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api//users/{refId}": {
+      "get": {
+        "tags": ["User"],
+        "description": "get user by id",
+        "parameters": [
+          {
+            "name": "refId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Users fetched successfully"
+                },
+                "success": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "662028ef115d3aa9c6d68d45"
+                    },
+                    "userName": {
+                      "type": "string",
+                      "example": "nathan"
+                    },
+                    "accountNumber": {
+                      "type": "string",
+                      "example": "123456"
+                    },
+                    "emailAddress": {
+                      "type": "string",
+                      "example": "nathan@mail"
+                    },
+                    "identityNumber": {
+                      "type": "string",
+                      "example": "123456"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api//users/create": {
+      "post": {
+        "tags": ["User"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "userName": {
+                  "type": "string",
+                  "example": "nathan"
+                },
+                "accountNumber": {
+                  "type": "string",
+                  "example": "123456"
+                },
+                "emailAddress": {
+                  "type": "string",
+                  "example": "nathan@mail"
+                },
+                "identityNumber": {
+                  "type": "string",
+                  "example": "123456"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Users created successfully"
+                },
+                "success": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "662028ef115d3aa9c6d68d45"
+                    },
+                    "userName": {
+                      "type": "string",
+                      "example": "nathan"
+                    },
+                    "accountNumber": {
+                      "type": "string",
+                      "example": "123456"
+                    },
+                    "emailAddress": {
+                      "type": "string",
+                      "example": "nathan@mail"
+                    },
+                    "identityNumber": {
+                      "type": "string",
+                      "example": "123456"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api//users/update/{refId}": {
+      "put": {
+        "tags": ["User"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "refId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "userName": {
+                  "type": "string",
+                  "example": "nathan"
+                },
+                "accountNumber": {
+                  "type": "string",
+                  "example": "123456"
+                },
+                "emailAddress": {
+                  "type": "string",
+                  "example": "nathan@mail"
+                },
+                "identityNumber": {
+                  "type": "string",
+                  "example": "123456"
+                }
+              }
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Users updated successfully"
+                },
+                "success": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "662028ef115d3aa9c6d68d45"
+                    },
+                    "userName": {
+                      "type": "string",
+                      "example": "nathan"
+                    },
+                    "accountNumber": {
+                      "type": "string",
+                      "example": "123456"
+                    },
+                    "emailAddress": {
+                      "type": "string",
+                      "example": "nathan@mail"
+                    },
+                    "identityNumber": {
+                      "type": "string",
+                      "example": "123456"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api//users/delete/{refId}": {
+      "delete": {
+        "tags": ["User"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "refId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         }
       }
