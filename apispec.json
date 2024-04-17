@@ -47,7 +47,8 @@
           {
             "name": "Authorization",
             "in": "header",
-            "type": "string"
+            "type": "string",
+            "default": "Bearer token"
           }
         ],
         "responses": {
@@ -115,7 +116,8 @@
           {
             "name": "Authorization",
             "in": "header",
-            "type": "string"
+            "type": "string",
+            "default": "Bearer token"
           }
         ],
         "responses": {
@@ -174,7 +176,8 @@
           {
             "name": "Authorization",
             "in": "header",
-            "type": "string"
+            "type": "string",
+            "default": "Bearer token"
           },
           {
             "name": "body",
@@ -291,7 +294,8 @@
           {
             "name": "Authorization",
             "in": "header",
-            "type": "string"
+            "type": "string",
+            "default": "Bearer token"
           }
         ],
         "responses": {
@@ -356,7 +360,8 @@
           {
             "name": "Authorization",
             "in": "header",
-            "type": "string"
+            "type": "string",
+            "default": "Bearer token"
           }
         ],
         "responses": {
