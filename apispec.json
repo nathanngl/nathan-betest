@@ -1,0 +1,100 @@
+{
+    "openapi":"3.0.2",
+    "info": {
+      "title":"Nathan BE Test",
+      "version":"1.0"
+    },
+    "servers": [
+      {"url":"http://localhost:3000"}
+    ],
+    "paths": {
+        "/users": {
+            "get": {
+                "tags": ["List Users"],
+                "description": "List All User",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Employee Name",
+                        "schema":{
+                            "type": "string"
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "fileName",
+                        "in": "query",
+                        "description": "FileName",
+                        "schema":{
+                            "type": "string"
+                        },
+                        "required": true,
+                        "examples": {
+                            "another-faulty-employees": {
+                                "value": "another-faulty-employees.json"
+                            },
+                            "faulty-employees": {
+                                "value": "faulty-employees.json"
+                            },
+                            "correct-employees": {
+                                "value": "correct-employees.json"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success get all employee",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "countDirectReports": {
+                                            "type": "number"
+                                        },
+                                        "countIndirectReports": {
+                                            "type": "number"
+                                        },
+                                        "superior": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "string"
+                                                },
+                                                "name": {
+                                                    "type": "string"
+                                                },
+                                                "superior": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "string"
+                                                        },
+                                                        "name": {
+                                                            "type": "string"
+                                                        },
+                                                        "superior": {
+                                                            "type": "object"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+  }
