@@ -1,11 +1,21 @@
 class UserService {
-  constructor(UserRepository) {
+  constructor(UserRepository, RedisClient) {
     this.UserRepository = UserRepository;
+    this.redis = RedisClient;
   }
 
   async getUsers() {
     try {
-      const data = this.UserRepository.getUsers();
+      const cachedData = await this.redis.get("users");
+      if (cachedData !== null && cachedData.length > 0) {
+        return cachedData;
+      }
+
+      const data = await this.UserRepository.getUsers();
+      if (data) {
+        await this.redis.store("users", JSON.stringify(data));
+      }
+
       return data;
     } catch (error) {
       throw new Error(error);
@@ -14,10 +24,20 @@ class UserService {
 
   async getUserByID(refId) {
     try {
-      const data = this.UserRepository.getUserByID(refId);
+      const redisKey = `user_${refId}`;
+
+      const cachedData = await this.redis.get(redisKey);
+      if (cachedData !== null && cachedData.length > 0) {
+        return cachedData;
+      }
+
+      const data = await this.UserRepository.getUserByID(refId);
       if (!data) {
         throw new Error("User not found");
+      } else {
+        await this.redis.store(redisKey, JSON.stringify(data));
       }
+
       return data;
     } catch (error) {
       throw new Error(error);

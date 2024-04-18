@@ -39,7 +39,7 @@
         }
       }
     },
-    "/api//users/": {
+    "/api/users/": {
       "get": {
         "tags": ["User"],
         "description": "Get list of user",
@@ -102,13 +102,13 @@
         }
       }
     },
-    "/api//users/{refId}": {
+    "/api/users/{refId}": {
       "get": {
         "tags": ["User"],
         "description": "get user by accountNumber or identityNumber",
         "parameters": [
           {
-            "name": "accountNumber or identityNumber",
+            "name": "refId",
             "in": "path",
             "required": true,
             "type": "string"
@@ -168,7 +168,7 @@
         }
       }
     },
-    "/api//users/create": {
+    "/api/users/create": {
       "post": {
         "tags": ["User"],
         "description": "",
@@ -254,7 +254,7 @@
         }
       }
     },
-    "/api//users/update/{refId}": {
+    "/api/users/update/{refId}": {
       "put": {
         "tags": ["User"],
         "description": "",
@@ -346,7 +346,7 @@
         }
       }
     },
-    "/api//users/delete/{refId}": {
+    "/api/users/delete/{refId}": {
       "delete": {
         "tags": ["User"],
         "description": "",

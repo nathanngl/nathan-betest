@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const validatToken = require("../middleware/validateToken");
+const RedisClient = require("../library/redis");
 
 const UserController = require("../controllers/userController");
 const UserService = require("../services/userService");
@@ -9,7 +10,7 @@ const UserRepository = require("../repositories/userRepository");
 const UserModel = require("../models/userModel");
 
 const userRepository = new UserRepository(UserModel);
-const userService = new UserService(userRepository);
+const userService = new UserService(userRepository, RedisClient);
 const userController = new UserController(userService);
 
 router.get("/", [validatToken], async (req, res, next) => {
