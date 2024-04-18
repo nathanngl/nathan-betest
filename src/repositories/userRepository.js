@@ -8,7 +8,9 @@ class UserRepository {
   }
 
   async getUserByID(refId) {
-    return await this.UserModel.findOne({ _id: refId });
+    return await this.UserModel.findOne({
+      $or: [{ accountNumber: refId }, { identityNumber: refId }],
+    });
   }
 
   async createUser(user) {

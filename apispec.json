@@ -105,10 +105,10 @@
     "/api//users/{refId}": {
       "get": {
         "tags": ["User"],
-        "description": "get user by id",
+        "description": "get user by accountNumber or identityNumber",
         "parameters": [
           {
-            "name": "refId",
+            "name": "accountNumber or identityNumber",
             "in": "path",
             "required": true,
             "type": "string"
