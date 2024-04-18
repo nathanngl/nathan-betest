@@ -27,7 +27,7 @@ class UserService {
       const redisKey = `user_${refId}`;
 
       const cachedData = await this.redis.get(redisKey);
-      if (cachedData !== null && cachedData.length > 0) {
+      if (cachedData !== null) {
         return cachedData;
       }
 

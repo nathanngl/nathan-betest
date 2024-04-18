@@ -90,10 +90,28 @@ describe("getUsers", () => {
     expect(result).toBeNull();
     expect(mockUserRepository.getUsers).toHaveBeenCalledTimes(1);
   });
+
+  it("should throw an error when data not found", async () => {
+    // Arrange
+    const mockUserRepository = {
+      getUsers: jest.fn().mockRejectedValue(new Error("User not found")),
+    };
+    const mockRedis = {
+      get: jest.fn().mockReturnValue(null),
+    };
+    const userService = new UserService(mockUserRepository, mockRedis);
+
+    // Act
+    await expect(userService.getUsers()).rejects.toThrow("User not found");
+
+    // Assert
+    expect(mockUserRepository.getUsers).toHaveBeenCalledTimes(1);
+    expect(mockRedis.get).toHaveBeenCalledTimes(1);
+  });
 });
 
 describe("getUserByID", () => {
-  it("should return the user", async () => {
+  it("should return the user from database", async () => {
     // Arrange
     const refId = "662028ef115d3aa9c6d68d46";
     const user = {
@@ -118,6 +136,29 @@ describe("getUserByID", () => {
     // Assert
     expect(result).toEqual(user);
     expect(mockUserRepository.getUserByID).toHaveBeenCalledWith(refId);
+  });
+
+  it("should return the user from redis", async () => {
+    // Arrange
+    const refId = "662028ef115d3aa9c6d68d46";
+    const user = {
+      _id: "662028ef115d3aa9c6d68d46",
+      userName: "nainggolan",
+      accountNumber: "78910",
+      emailAddress: "nathan@mail",
+      identityNumber: "78910",
+    };
+    const mockRedis = {
+      get: jest.fn().mockReturnValue(user),
+    };
+    const userService = new UserService(null, mockRedis);
+
+    // Act
+    const result = await userService.getUserByID(refId);
+
+    // Assert
+    expect(result).toEqual(user);
+    expect(mockRedis.get).toHaveBeenCalledWith(`user_${refId}`);
   });
 
   it("should return user not found", async () => {
