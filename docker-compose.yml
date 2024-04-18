@@ -1,0 +1,43 @@
+services:
+  # MongoDB services
+  mongo_db:
+    image: mongo
+    container_name: db_container
+    restart: always
+    ports:
+      - 27020:27017
+    volumes:
+      - mongo_db:/data/db
+
+  # Redis services
+  redis:
+    image: redis
+    container_name: redis
+    restart: always
+    ports:
+      - 6400:6379
+    volumes:
+      - redis:/data/redis
+
+  # Node API services
+  api:
+    build: .
+    ports:
+      - 4000:3000
+    volumes:
+      - .:/app
+    depends_on:
+      - mongo_db
+      - redis
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - DB_URI=mongodb://mongo_db:27017/db_nathan_betest
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - JWT_SECRET=nath4n-betest
+      - JWT_ACCESS_EXPIRATION_MINUTES=30
+
+volumes:
+  mongo_db: {}
+  redis: {}

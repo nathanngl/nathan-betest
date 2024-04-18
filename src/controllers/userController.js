@@ -38,7 +38,7 @@ class UserController {
     try {
       const user = req.body;
 
-      const isValid = userValidation.create().validateAsync(user);
+      const isValid = await userValidation.create().validateAsync(user);
       if (!isValid) {
         return res.status(400).send(isValid.error);
       }
@@ -60,7 +60,7 @@ class UserController {
       const refId = req.params.refId;
       const user = req.body;
 
-      const isValid = userValidation.update().validateAsync(user);
+      const isValid = await userValidation.update().validateAsync(user);
       if (!isValid) {
         return res.status(400).send(isValid.error);
       }
