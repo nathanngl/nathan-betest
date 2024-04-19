@@ -35,6 +35,7 @@ Running with docker
 ## Usage <a name = "usage"></a>
 
 You can access the app using curl, postman or the documentation with swagger at /api-docs
+Or you can access http://54.179.88.7:3000/api-docs/ (in progress to https)
 
 ## Unit Test
 
