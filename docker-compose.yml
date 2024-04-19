@@ -23,7 +23,7 @@ services:
   api:
     build: .
     ports:
-      - 4000:3000
+      - 3000:3000
     volumes:
       - .:/app
     depends_on:
