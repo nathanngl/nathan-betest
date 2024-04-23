@@ -28,6 +28,15 @@ app.use(mongoSanitize());
 app.use(cors());
 app.options("*", cors());
 
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use(
+  "/api-docs",
+  function (req, res, next) {
+    swaggerDocument.host = req.get("host");
+    req.swaggerDoc = swaggerDocument;
+    next();
+  },
+  swaggerUi.serveFiles(swaggerDocument),
+  swaggerUi.setup()
+);
 
 app.use("/api", require("./routes"));
