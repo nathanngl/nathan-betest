@@ -19,6 +19,19 @@ services:
     volumes:
       - redis:/data/redis
 
+  # Nginx
+  nginx:
+    image: nginx
+    container_name: nginx
+    restart: always
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - /etc/letsencrypt/archive/mowra-be.xyz:/etc/letsencrypt/archive/mowra-be.xyz
+    depends_on:
+      - api
+
   # Node API services
   api:
     build: .
