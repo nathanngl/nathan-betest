@@ -12,17 +12,7 @@ router.get("/", (req, res) => {
 router.use("/users", require("./user"));
 router.use("/auth", require("./auth"));
 
-router.use(
-  "/api-docs",
-  function (req, res, next) {
-    swaggerDocument.host = req.get("host");
-    req.swaggerDoc = swaggerDocument;
-    next();
-  },
-  swaggerUi.serveFiles(swaggerDocument),
-  swaggerUi.setup()
-);
-
 router.use("/api-docs", swaggerUi.serve);
+router.get("/api-docs", swaggerUi.setup(swaggerDocument));
 
 module.exports = router;
