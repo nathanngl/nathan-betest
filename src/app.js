@@ -5,9 +5,6 @@ const cors = require("cors");
 const initDBConnection = require("./config/mongodb");
 const redisClass = require("./library/redis");
 
-const swaggerUi = require("swagger-ui-express");
-const swaggerDocument = require("./../apispec.json");
-
 require("dotenv").config();
 
 const app = express();
@@ -28,15 +25,8 @@ app.use(mongoSanitize());
 app.use(cors());
 app.options("*", cors());
 
-app.use(
-  "/api-docs",
-  function (req, res, next) {
-    swaggerDocument.host = req.get("host");
-    req.swaggerDoc = swaggerDocument;
-    next();
-  },
-  swaggerUi.serveFiles(swaggerDocument),
-  swaggerUi.setup()
-);
-
 app.use("/api", require("./routes"));
+
+app.get("/", (req, res) => {
+  res.send("OK");
+});
