@@ -3,7 +3,7 @@ const express = require("express");
 const router = express.Router();
 
 const swaggerUi = require("swagger-ui-express");
-const swaggerDocument = require("./../apispec.json");
+const swaggerDocument = require("./../../apispec.json");
 
 router.get("/", (req, res) => {
   res.send("OK");
