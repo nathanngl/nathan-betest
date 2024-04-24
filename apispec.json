@@ -5,9 +5,9 @@
     "title": "REST API",
     "description": "Nathan Nainggolan - BE Test"
   },
-  "host": "localhost:3000",
+  "host": "test.mowra-be.xyz",
   "basePath": "/",
-  "schemes": ["http"],
+  "schemes": ["https", "http"],
   "consumes": ["application/json"],
   "produces": ["application/json"],
   "paths": {

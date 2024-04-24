@@ -15,7 +15,7 @@ redisClass.init();
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
-  console.log(`Open API Docs at http://localhost:${port}/api-docs`);
+  console.log(`Open API Docs at /api/api-docs`);
 });
 
 app.use(helmet());
