@@ -13,6 +13,10 @@ router.use("/users", require("./user"));
 router.use("/auth", require("./auth"));
 
 router.use("/api-docs", swaggerUi.serve);
-router.get("/api-docs", swaggerUi.setup(swaggerDocument));
+router.get(
+  "/api-docs",
+  express.static("./node_modules/swagger-ui-dist", { index: false }),
+  swaggerUi.setup(swaggerDocument)
+);
 
 module.exports = router;
