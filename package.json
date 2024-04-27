@@ -23,6 +23,7 @@
     "jest": "^29.7.0",
     "joi": "^17.12.3",
     "jsonwebtoken": "^9.0.2",
+    "kafkajs": "^2.2.4",
     "mongoose": "^8.3.2",
     "nodemon": "^3.1.0",
     "redis": "^4.6.13",
