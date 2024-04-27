@@ -1,26 +1,24 @@
 const kafkaPubSub = require("../library/kafkaPubSub");
+const UserModel = require("../models/userModel");
+const UserRepository = require("../repositories/userRepository");
 
 const userConsumer = async () => {
-  const data = await kafkaPubSub.consume(
-    "user-creation",
-    "user-creation-consumer"
-  );
+  const userRepository = new UserRepository(UserModel);
 
-  if (data.length > 0) {
-    console.log("consuming user creation message");
+  await kafkaPubSub.consume("user-creation", "user-creation-consumer");
 
-    const user = JSON.parse(data.value);
+  await kafkaPubSub.consumer.run({
+    eachMessage: async ({ message }) => {
+      const user = JSON.parse(message.value.toString());
 
-    const isValid = await userValidation.create().validateAsync(user);
-    if (!isValid) {
-      console.log(isValid.error);
-    }
+      console.log("consuming user creation message");
 
-    const data = await userController.createUser(user);
-    console.log("user created");
-  } else {
-    console.log("no user creation message found");
-  }
+      const result = await userRepository.createUser(user);
+      if (result) {
+        console.log("User created successfully");
+      }
+    },
+  });
 };
 
 // a function to consume user creation messages from kafka

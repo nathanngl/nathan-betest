@@ -53,24 +53,10 @@ class KafkaPubSub {
 
       await this.consumer.connect();
 
-      await this.consumer.subscribe({ topic: topic, fromBeginning: true });
-
-      const data = [];
-      await this.consumer.run({
-        // eachMessage: async ({ topic, partition, message }) => {
-        //   data.push(JSON.parse(message.value));
-        //   console.log(message.value.toString());
-        // },
-        eachMessage: async ({ topic, partition, message }) => {
-          console.log({
-            partition,
-            offset: message.offset,
-            value: JSON.parse(message.value.toString()),
-          });
-        },
+      return await this.consumer.subscribe({
+        topic: topic,
+        fromBeginning: true,
       });
-
-      return data;
     } catch (error) {
       throw new Error(error);
     }
