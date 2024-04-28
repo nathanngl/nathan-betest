@@ -4,6 +4,9 @@ const router = express.Router();
 
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./../../apispec.json");
+if (process.env.NODE_ENV === "dev") {
+  swaggerDocument.host = `localhost:${process.env.PORT}`;
+}
 
 router.get("/", (req, res) => {
   res.send("OK");
