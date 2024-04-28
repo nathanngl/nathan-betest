@@ -49,13 +49,15 @@ class KafkaPubSub {
         throw new Error("Invalid topic or groupId");
       }
 
-      this.consumer = await this.kafka.consumer({ groupId: groupId });
+      this.consumer = await this.kafka.consumer({
+        groupId: groupId,
+      });
 
       await this.consumer.connect();
 
       return await this.consumer.subscribe({
         topic: topic,
-        fromBeginning: true,
+        fromBeginning: false,
       });
     } catch (error) {
       throw new Error(error);

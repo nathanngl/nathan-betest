@@ -1,3 +1,4 @@
+require("dotenv").config();
 const mongoose = require("mongoose");
 
 module.exports = async () => {
@@ -14,7 +15,7 @@ module.exports = async () => {
       .admin()
       .listDatabases({ nameOnly: true })
       .then(({ databases }) =>
-        databases.map((db) => db.name).includes(db.databaseName),
+        databases.map((db) => db.name).includes(db.databaseName)
       );
     if (!dbExists) {
       console.log("Creating database...");
