@@ -4,15 +4,12 @@ const config = require("../config/config");
 class KafkaPubSub {
   constructor() {
     this.kafka = new Kafka({
-      clientId: this.clientId,
-      brokers: this.brokers,
+      clientId: config.kafka.clientId,
+      brokers: config.kafka.brokers,
     });
     this.producer = null;
     this.consumer = null;
   }
-
-  clientId = config.kafka.clientId;
-  brokers = config.kafka.brokers;
   testGroup = config.kafka.groupTest;
 
   async init() {

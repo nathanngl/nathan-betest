@@ -1,7 +1,7 @@
 services:
   # MongoDB services
   mongo_db:
-    image: mongo
+    image: mongo:4.2
     container_name: db_container
     restart: always
     ports:
