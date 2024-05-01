@@ -1,8 +1,9 @@
 require("dotenv").config();
 const mongoose = require("mongoose");
+const config = require("./config");
 
 module.exports = async () => {
-  const uri = process.env.DB_URI;
+  const uri = config.db.url;
 
   try {
     // Connect to MongoDB
@@ -15,7 +16,7 @@ module.exports = async () => {
       .admin()
       .listDatabases({ nameOnly: true })
       .then(({ databases }) =>
-        databases.map((db) => db.name).includes(db.databaseName)
+        databases.map((db) => db.name).includes(db.databaseName),
       );
     if (!dbExists) {
       console.log("Creating database...");

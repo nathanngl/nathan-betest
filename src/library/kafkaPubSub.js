@@ -1,4 +1,5 @@
 const { Kafka } = require("kafkajs");
+const config = require("../config/config");
 
 class KafkaPubSub {
   constructor() {
@@ -10,9 +11,9 @@ class KafkaPubSub {
     this.consumer = null;
   }
 
-  clientId = process.env.KAFKA_CLIENT_ID || "kafka-pub-sub";
-  brokers = [process.env.KAFKA_BROKERS || "localhost:9092"];
-  testGroup = process.env.KAFKA_GROUP_TEST || "test-group";
+  clientId = config.kafka.clientId;
+  brokers = config.kafka.brokers;
+  testGroup = config.kafka.groupTest;
 
   async init() {
     this.producer = this.kafka.producer();

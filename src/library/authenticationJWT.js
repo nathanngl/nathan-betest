@@ -1,9 +1,10 @@
 const jwt = require("jsonwebtoken");
+const config = require("../config/config");
 
 class AuthenticationJWT {
   constructor() {
-    this.secret = process.env.JWT_SECRET;
-    this.expiresIn = process.env.JWT_ACCESS_EXPIRATION_MINUTES;
+    this.secret = config.jwt.secret;
+    this.expiresIn = config.jwt.accessExpirationMinutes;
   }
 
   async generateToken(payload) {
