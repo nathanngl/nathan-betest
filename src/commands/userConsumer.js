@@ -1,6 +1,7 @@
 const kafkaPubSub = require("../library/kafkaPubSub");
 const UserModel = require("../models/userModel");
 const UserRepository = require("../repositories/userRepository");
+const redisClient = require("../library/redis");
 
 const userConsumer = async () => {
   const userRepository = new UserRepository(UserModel);
@@ -15,6 +16,7 @@ const userConsumer = async () => {
 
       const result = await userRepository.createUser(user);
       if (result) {
+        await redisClient.store("users", JSON.stringify(data));
         console.log("User created successfully");
       }
     },
