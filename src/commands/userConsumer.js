@@ -16,7 +16,7 @@ const userConsumer = async () => {
 
       const result = await userRepository.createUser(user);
       if (result) {
-        await redisClient.store("users", JSON.stringify(data));
+        await redisClient.store("users", JSON.stringify(result));
         console.log("User created successfully");
       }
     },
