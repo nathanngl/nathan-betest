@@ -20,7 +20,7 @@ class KafkaPubSub {
       await this.producer.connect();
       await this.consumer.connect();
 
-      await console.log("Connected to Kafka");
+      console.log("Connected to Kafka");
     } catch (error) {
       throw new Error(error);
     }
@@ -49,6 +49,7 @@ class KafkaPubSub {
 
       this.consumer = await this.kafka.consumer({
         groupId: groupId,
+        allowAutoTopicCreation: true,
       });
 
       await this.consumer.connect();

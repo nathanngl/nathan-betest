@@ -12,16 +12,15 @@ require("dotenv").config();
 const app = express();
 const port = process.env.PORT;
 
-initDBConnection();
-redisClass.init();
-KafkaPubSub.init();
-
-// run commands
-commands();
-
-app.listen(port, () => {
+app.listen(port, async () => {
   console.log(`Server running on port ${port}`);
   console.log(`Open API Docs at /api/api-docs`);
+
+  await initDBConnection();
+  await redisClass.init();
+  await KafkaPubSub.init();
+
+  await commands();
 });
 
 app.use(helmet());
