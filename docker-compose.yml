@@ -69,6 +69,7 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
       KAFKA_JMX_PORT: 9997
       KAFKA_JMX_HOSTNAME: kafka
+      KAFKAJS_NO_PARTITIONER_WARNING: 1
 
   # kafka ui if needed
   kafka-ui:
