@@ -29,7 +29,9 @@ Running localy
 Running with docker
 
 ```
-- docker compose up
+- docker network create betest-net
+- docker compose up -d
+- on folder kafka/ docker compose up -d
 ```
 
 ## Usage <a name = "usage"></a>

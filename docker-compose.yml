@@ -1,19 +1,24 @@
 services:
   # MongoDB services
   mongo_db:
-    image: mongo:4.4.29
+    # choose version wisely
+    image: mongo
     container_name: db_container
     restart: always
     ports:
       - 27020:27017
     volumes:
       - mongo_db:/data/db
+    networks:
+      - betest-net
 
   # Redis services
   redis:
     image: redis
     container_name: redis
     restart: always
+    networks:
+      - betest-net
     ports:
       - 6400:6379
     volumes:
@@ -24,6 +29,8 @@ services:
     image: nginx
     container_name: nginx
     restart: always
+    networks:
+      - betest-net
     ports:
       - 80:80
       - 443:443
@@ -32,62 +39,6 @@ services:
       - /etc/letsencrypt/archive/mowra-be.xyz:/etc/letsencrypt/archive/mowra-be.xyz
     depends_on:
       - api
-
-  # zookeeper
-  zookeeper:
-    image: confluentinc/cp-zookeeper:7.2.1
-    hostname: zookeeper
-    container_name: zookeeper
-    restart: always
-    ports:
-      - "2181:2181"
-    environment:
-      ZOOKEEPER_CLIENT_PORT: 2181
-      ZOOKEEPER_TICK_TIME: 2000
-
-  # kafka
-  kafka:
-    image: confluentinc/cp-server:7.2.1
-    hostname: kafka
-    container_name: kafka
-    restart: always
-    depends_on:
-      - zookeeper
-    ports:
-      - "9092:9092"
-      - "9997:9997"
-    environment:
-      KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
-      KAFKA_CONFLUENT_LICENSE_TOPIC_REPLICATION_FACTOR: 1
-      KAFKA_CONFLUENT_BALANCER_TOPIC_REPLICATION_FACTOR: 1
-      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
-      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
-      KAFKA_JMX_PORT: 9997
-      KAFKA_JMX_HOSTNAME: kafka
-      KAFKAJS_NO_PARTITIONER_WARNING: 1
-
-  # kafka ui if needed
-  kafka-ui:
-    image: provectuslabs/kafka-ui:latest
-    container_name: kafka-ui
-    ports:
-      - 8090:8080
-    depends_on:
-      - kafka
-      - zookeeper
-    environment:
-      KAFKA_CLUSTERS_0_NAME: local
-      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:29092
-      KAFKA_CLUSTERS_0_ZOOKEEPER: zookeeper:2181
-      DYNAMIC_CONFIG_ENABLED: true
-      AUTH_TYPE: "LOGIN_FORM"
-      SPRING_SECURITY_USER_NAME: admin
-      SPRING_SECURITY_USER_PASSWORD: pass
 
   # Node API services
   api:
@@ -99,9 +50,9 @@ services:
     depends_on:
       - mongo_db
       - redis
-      - kafka
-      - zookeeper
     restart: always
+    networks:
+      - betest-net
     env_file:
       - .env
     # environment:
@@ -116,6 +67,11 @@ services:
     #   KAFKA_BROKERS_URI: "kafka:29092"
     #   KAFKA_TOPIC_TEST: "test_topic"
     #   KAFKA_GROUP_TEST: "test_group"
+
+networks:
+  betest-net:
+    name: betest-net
+    external: true
 
 volumes:
   mongo_db: {}
