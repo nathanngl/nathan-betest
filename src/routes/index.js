@@ -4,6 +4,7 @@ const router = express.Router();
 
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./../../apispec.json");
+const config = require("../config/config");
 
 router.get("/", (req, res) => {
   res.send("OK");
@@ -16,6 +17,11 @@ router.use(
   "/api-docs",
   function (req, res, next) {
     swaggerDocument.host = req.get("host");
+
+    if (config.env === "production") {
+      swaggerDocument.host = config.appDomain;
+    }
+
     req.swaggerDoc = swaggerDocument;
     next();
   },

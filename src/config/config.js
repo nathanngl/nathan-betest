@@ -9,6 +9,7 @@ const envVarsSchema = Joi.object()
     NODE_ENV: Joi.string()
       .valid("production", "development", "test")
       .required(),
+    APP_DOMAIN: Joi.string().required(),
     PORT: Joi.number().default(3000),
     DB_URI: Joi.string().required().description("Mongo DB url"),
     JWT_SECRET: Joi.string().required().description("JWT secret key"),
@@ -41,6 +42,7 @@ if (error) {
 module.exports = {
   env: envVars.NODE_ENV,
   port: envVars.PORT,
+  appDomain: envVars.APP_DOMAIN,
   db: {
     url: envVars.DB_URI,
   },
