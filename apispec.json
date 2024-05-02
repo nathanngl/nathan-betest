@@ -3,7 +3,7 @@
   "info": {
     "version": "1.0.0",
     "title": "REST API",
-    "description": "Simple User CRUD - Built with NodeJs (Express), MongoDB and Redis. Hosted to AWS EC2 with Docker and Nginx webserver. (WIP - CI/CD Pipeline)"
+    "description": "Simple User CRUD - Built with NodeJs (Express), MongoDB and Redis and running on Nginx. For kafka (producer and consumer) access http://103.127.135.53:8090/auth with user 'admin' and password 'pass'. (WIP - CI/CD Pipeline)"
   },
   "host": "test.mowra-be.xyz",
   "basePath": "/",
