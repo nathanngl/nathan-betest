@@ -7,6 +7,16 @@ class UserRepository {
     return await this.UserModel.find();
   }
 
+  async getUsersLatest(query) {
+    return await this.UserModel.find({
+      createdAt: {
+        $lte: query.currentTime,
+      },
+    })
+      .sort({ createdAt: -1 })
+      .limit(1);
+  }
+
   async getUserByID(refId) {
     return await this.UserModel.findOne({
       $or: [{ accountNumber: refId }, { identityNumber: refId }],

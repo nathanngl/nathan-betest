@@ -174,7 +174,7 @@ describe("getUserByID", () => {
 
     // Act and Assert
     await expect(userService.getUserByID(refId)).rejects.toThrow(
-      "User not found"
+      "User not found",
     );
     expect(mockUserRepository.getUserByID).toHaveBeenCalledWith(refId);
     expect(mockRedis.get).toHaveBeenCalledTimes(1);
@@ -220,7 +220,7 @@ describe("createUser", () => {
 
     // Act and Assert
     await expect(userService.createUser(user)).rejects.toThrowError(
-      "Invalid input data"
+      "Invalid input data",
     );
   });
 });
@@ -266,7 +266,7 @@ describe("updateUser", () => {
 
     // Act & Assert
     await expect(userService.updateUser(refId, user)).rejects.toThrowError(
-      "User not found"
+      "User not found",
     );
   });
 
@@ -288,7 +288,7 @@ describe("updateUser", () => {
 
     // Assert
     await expect(userService.updateUser("invalid-id", user)).rejects.toThrow(
-      "Invalid user ID"
+      "Invalid user ID",
     );
   });
 });
@@ -320,7 +320,7 @@ describe("deleteUser", () => {
 
     // Act
     await expect(userService.deleteUser(refId)).rejects.toThrow(
-      "Invalid user ID"
+      "Invalid user ID",
     );
 
     // Assert

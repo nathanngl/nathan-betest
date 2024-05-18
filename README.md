@@ -30,6 +30,9 @@ Running localy
 Running with docker
 
 ```
+- docker network create betest-net
+- docker compose up -d
+- on folder kafka/ docker compose up -d
 - setup your .env and docker-compose.yml environment
 - run docker compose up
 ```

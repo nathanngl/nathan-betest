@@ -4,21 +4,23 @@ const mongoSanitize = require("express-mongo-sanitize");
 const cors = require("cors");
 const initDBConnection = require("./config/mongodb");
 const redisClass = require("./library/redis");
-
-const swaggerUi = require("swagger-ui-express");
-const swaggerDocument = require("./../apispec.json");
+const KafkaPubSub = require("./library/kafkaPubSub");
+const commands = require("./commands");
 
 require("dotenv").config();
 
 const app = express();
 const port = process.env.PORT;
 
-initDBConnection();
-redisClass.init();
-
-app.listen(port, () => {
+app.listen(port, async () => {
   console.log(`Server running on port ${port}`);
-  console.log(`Open API Docs at http://localhost:${port}/api-docs`);
+  console.log(`Open API Docs at /api/api-docs`);
+
+  await initDBConnection();
+  await redisClass.init();
+  await KafkaPubSub.init();
+
+  await commands();
 });
 
 app.use(helmet());
@@ -28,15 +30,8 @@ app.use(mongoSanitize());
 app.use(cors());
 app.options("*", cors());
 
-app.use(
-  "/api-docs",
-  function (req, res, next) {
-    swaggerDocument.host = req.get("host");
-    req.swaggerDoc = swaggerDocument;
-    next();
-  },
-  swaggerUi.serveFiles(swaggerDocument),
-  swaggerUi.setup()
-);
-
 app.use("/api", require("./routes"));
+
+app.get("/", (req, res) => {
+  res.send("OK");
+});

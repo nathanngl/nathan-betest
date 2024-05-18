@@ -3,11 +3,11 @@
   "info": {
     "version": "1.0.0",
     "title": "REST API",
-    "description": "Nathan Nainggolan - BE Test"
+    "description": "Simple User CRUD - Built with NodeJs (Express), MongoDB and Redis and running on Nginx. For kafka (producer and consumer) access http://103.127.135.53:8090/auth with user 'admin' and password 'pass'. (WIP - CI/CD Pipeline)"
   },
-  "host": "localhost:3000",
+  "host": "test.mowra-be.xyz",
   "basePath": "/",
-  "schemes": ["http"],
+  "schemes": ["https", "http"],
   "consumes": ["application/json"],
   "produces": ["application/json"],
   "paths": {

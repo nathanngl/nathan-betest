@@ -1,11 +1,12 @@
 const redis = require("redis");
+const config = require("../config/config");
 
 class RedisConnection {
   constructor() {
     this.client = redis.createClient({
       socket: {
-        host: process.env.REDIS_HOST,
-        port: process.env.REDIS_PORT,
+        host: config.redis.host,
+        port: config.redis.port,
         connectTimeout: 10000,
       },
     });
@@ -13,7 +14,7 @@ class RedisConnection {
 
   async init() {
     await this.client.on("error", (err) =>
-      console.log("Redis Client Error", err)
+      console.log("Redis Client Error", err),
     );
     await this.client.connect();
     console.log("Connected to Redis");

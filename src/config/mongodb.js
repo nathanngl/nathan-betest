@@ -1,7 +1,9 @@
+require("dotenv").config();
 const mongoose = require("mongoose");
+const config = require("./config");
 
 module.exports = async () => {
-  const uri = process.env.DB_URI;
+  const uri = config.db.url;
 
   try {
     // Connect to MongoDB
